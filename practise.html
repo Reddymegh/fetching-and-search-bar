@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+    *{
+        margin:2px;
+        padding: 0;
+       font-weight: 100;
+    }
+    #container{
+        display: flex;
+        width: 100vw;
+        flex-wrap: wrap;
+    }
+    .card{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 250px;
+        height:350px;
+        border: 1px solid gray;
+        margin: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;;
+    }
+    .card img{
+        width: 100px;
+        height: 150px;
+        left: 20px;
+
+    }
+    .card .rat{
+        color: white;
+        background-color: rgb(39, 215, 39);
+        width: 30px;
+        border: 0px solid transparent ;
+        border-radius: 7px;
+
+    }
+    .card .MRP{
+        text-decoration:line-through;
+    }
+    .card .Discount{
+        color: red;
+    }
+</style>
+<body>
+<div id="container">
+
+</div>
+</body>
+<script>
+    let parentElement=document.getElementById("container")
+        fetch("./mydatafetching.json")
+        .then((Response)=>Response.json())
+        .then((value)=>{
+           
+            let data='';
+            value.map((product)=>{
+                 data+=`
+                 <div class="card">
+                 <img src=${product.image} alt="">
+                 <h4 class="brand">${product.Brand}</h4>
+                 <h5 class="des">${product.description}</h5>
+                 <button class="rat">${product.rating}<i class="fa-solid fa-star"></i></button>
+                 <h3 class="price">₹${product.price}</h3> 
+                 <h5 class="MRP">${product.Mrp}</h5> 
+                 <h3 class="Discount">${product.discount}% OFF</h3>
+                 </div>
+
+                 `
+            })
+            console.log(data)
+            parentElement.innerHTML = data
+        })
+       
+
+</script>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .search-div{
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin-top: 30px;
+       margin-left: 10px;
+    }
+    .search-div #searchinput{
+        padding: 10px;
+        color: purple;
+        border: 1px solid purple;
+    }
+    .search-div #input{
+        padding: 10px;
+        color: purple;
+        border: 1px solid purple;
+        margin-left: 10px;
+    }
+    #result .hero img{
+        display: flex;
+        align-items: center;
+       margin-top: 20px;
+       margin-left: 300px;
+       
+    }
+    #result{
+        display: flex;
+        width: 100vw;
+        flex-wrap: wrap
+    }
+    .card{
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+        width: 250px;
+        height:300px;
+        border: 1px solid gray;
+        margin: 10px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;;
+    }
+    .card img{
+        width: 100px;
+        height: 150px;
+        left: 20px;
+
+    }
+    .card .rat{
+        color: white;
+        background-color: rgb(39, 215, 39);
+        width: 30px;
+        border: 0px solid transparent ;
+        border-radius: 7px;
+
+    }
+    .card .MRP{
+        text-decoration:line-through;
+    }
+    .card .Discount{
+        color: red;
+    }
+
+</style>
+<body>
+    <div class="search-div">
+<input type="text"name=""id="searchinput" placeholder="searchProducts here....">
+<button onclick="searchProducts()" id="input">search</button>
+</div>
+<div id="result">
+    <div class="hero">
+        <img src="https://img.freepik.com/premium-photo/girl-is-modeling-red-color-lehenga-dress_746565-110263.jpg?w=360"alt=""width="200px">
+    </div>
+</div>
+
+<script>
+       
+    let products = [];
+    fetch("./mydatafetching.json")
+        .then((response) => response.json())
+        .then(value => {
+            products = value; 
+            console.log(value);
+        })
+      
+    function searchProducts() {
+        let inputdata = document.getElementById("searchinput").value.toLowerCase();
+        
+
+        if (inputdata.length < 1) {
+            alert("Please enter a value");
+            return; 
+        }
+        let filteredProducts = products.filter(product => 
+            product.description.toLowerCase().includes(inputdata)
+        );
+
+        let resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "";
+        if (filteredProducts.length > 0) {
+            filteredProducts.forEach(product => {
+                resultDiv.innerHTML += `
+                <div class="card">
+                 <img src=${product.image} alt="">
+                 <h4 class="brand">${product.Brand}</h4>
+                 <h5 class="des">${product.description}</h5>
+                 <button class="rat">${product.rating}<i class="fa-solid fa-star"></i></button>
+                 <h3 class="price">₹${product.price}</h3> 
+                 <h5 class="MRP">${product.Mrp}</h5> 
+                 <h3 class="Discount">${product.discount}% OFF</h3>
+                 </div>
+
+                 `
+        });
+        }   
+         else {
+            resultDiv.innerHTML = '<h1>Product not found</h1>';
+        }
+    }
+</script>
+</body>
+</html>
